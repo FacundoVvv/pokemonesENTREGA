@@ -13,7 +13,7 @@ const arrowL = document.querySelector('#arrowL')
 const errorOff = document.querySelector('#pokedexapagadaERROR');
 
 const pokedexContainer = document.querySelector('#pokedexcontainer');
-const promesas = [];
+let promesas = [];
 
 //pkedex inicia apagada (false)
 let statuss = false;
@@ -24,12 +24,16 @@ const powerOrOff = ()=>{
         statuss = true;
         pokemonTitle.textContent = "";
         powerbutton.classList.add('colorON');
+        inputNumber.value="";
 
     }else{
         statuss = false;
         pokemonTitle.textContent = "Off";
         powerbutton.classList.remove('colorON');
-        screenn.removeChild(imageP)
+        inputNumber.value="";
+        if(screenn.contains(imageP)){
+            screenn.removeChild(imageP)
+        }
     }
 
 }
@@ -43,20 +47,21 @@ const renderPokemon = (pokemonToRender)=>{
     pokemonTitle.textContent = pokemonNameToUpperCase(pokemonToRender.name);
     screenn.innerHTML = `<img id="pokemonIMAGEid" class='pokemonIMAGE' src='${pokemonToRender.sprites['front_default']}'>`;
     screenn.appendChild(errorOff);
-
 }
 
+const pokemonSelected = {};
 const getPokemon = async (id) =>{
     try{
         const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
         const pokemon = await promise.json();
         renderPokemon(pokemon);
+        promesas.push(pokemon);
+        
+    }catch{
+        console.log("error")
     }
-    catch{
-        alert("error");
-    }
+    
 }
-
 
 const init = ()=>{
     powerbutton.addEventListener('click', (e) =>{
@@ -64,18 +69,60 @@ const init = ()=>{
     })
 
     submitButton.addEventListener('click', (e) =>{
+        promesas = []; //reseteo promesas para evitar bug
         if(statuss){
             if(inputNumber.value >=1){
                 getPokemon(inputNumber.value)
             }
         }
-       else if(!statuss)
-       {
-        errorOff.style.display="grid";
-            setTimeout(e=>{
-                errorOff.style.display="none";
-            },600)
-       }
+       else if (!statuss)
+            {
+        
+                errorOff.style.display="grid";
+                    setTimeout(e=>{
+                        errorOff.style.display="none";
+                    },600)
+            }
+    })
+
+    let imagenStatus = 0; //front
+
+    const changeImage = (pokemon, imagePath)=>{
+        screenn.innerHTML = ` <img id="pokemonIMAGEid" 
+        class='pokemonIMAGE' src='${pokemon[0].sprites[`${imagePath}`]}'> `;
+        screenn.appendChild(errorOff);
+        
+    }  
+
+    arrowD.addEventListener('click', e=>{
+        
+        Promise.all(promesas).then((res)=>{
+            if(statuss){
+                switch(imagenStatus){
+                    case 0: changeImage(res, 'back_default')
+                           imagenStatus = 1;
+                           break;
+                    case 1:changeImage(res, 'front_default')
+                           imagenStatus = 0;
+                           break;
+                }
+            }
+        })
+    })
+    arrowL.addEventListener('click', e=>{
+        Promise.all(promesas).then((res)=>{
+            if(statuss)
+            {
+                switch(imagenStatus){
+                    case 0:changeImage(res, 'back_default')
+                           imagenStatus = 1;
+                           break;
+                    case 1:changeImage(res, 'front_default')
+                           imagenStatus = 0;
+                           break;
+                }
+            }
+        })
     })
 }
 init();
