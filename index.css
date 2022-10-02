@@ -156,4 +156,5 @@ html, body{
     width: 100%;
     max-width: 250px;
     min-width: 150px;
+    filter: drop-shadow(2px 2px 2px white);
 }

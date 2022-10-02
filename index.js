@@ -17,17 +17,19 @@ const promesas = [];
 
 //pkedex inicia apagada (false)
 let statuss = false;
+
 const powerOrOff = ()=>{
-    // !statuss ? statuss = true : statuss = false;
+    const imageP = document.querySelector('#pokemonIMAGEid');
     if(!statuss){
         statuss = true;
-        powerbutton.classList.add('colorON');
         pokemonTitle.textContent = "";
+        powerbutton.classList.add('colorON');
 
     }else{
         statuss = false;
         pokemonTitle.textContent = "Off";
         powerbutton.classList.remove('colorON');
+        screenn.removeChild(imageP)
     }
 
 }
@@ -40,6 +42,7 @@ const pokemonNameToUpperCase = (nameToUpper)=>{
 const renderPokemon = (pokemonToRender)=>{
     pokemonTitle.textContent = pokemonNameToUpperCase(pokemonToRender.name);
     screenn.innerHTML = `<img id="pokemonIMAGEid" class='pokemonIMAGE' src='${pokemonToRender.sprites['front_default']}'>`;
+    screenn.appendChild(errorOff);
 
 }
 
@@ -66,12 +69,13 @@ const init = ()=>{
                 getPokemon(inputNumber.value)
             }
         }
-        else{
-            errorOff.style.display="grid";
+       else if(!statuss)
+       {
+        errorOff.style.display="grid";
             setTimeout(e=>{
                 errorOff.style.display="none";
             },600)
-        }
+       }
     })
 }
 init();
