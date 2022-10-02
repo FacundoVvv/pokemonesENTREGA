@@ -75,6 +75,8 @@ html, body{
     justify-content: center;
     align-items: center;
     border-radius: 3px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 .button-power{
     width: 10%;
@@ -140,6 +142,9 @@ html, body{
     cursor: pointer;
 }
 .pokedexapagadaERROR{
+    grid-column-start: 1;
+    grid-column-end: 3;
+
     display: grid;
     background-color: rgb(228, 110, 15);
     color: white;
@@ -157,4 +162,24 @@ html, body{
     max-width: 250px;
     min-width: 150px;
     filter: contrast(110%) drop-shadow(2px 2px 5px rgba(109, 32, 233, 0.493));
+}
+
+/* stats section */
+
+.types{
+    display: flex;
+    gap:8px;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    list-style: none;
+    color: rgb(235, 227, 227);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    justify-self: flex-end;
+    align-self: flex-end;
+    font-size: clamp(12px, 2vw, 12px);
+    background-color:#fc376556;
+    border:.2px solid black;
+    border-radius: 22px;
+    padding-left: 5px;
+    padding-right: 5px;
 }

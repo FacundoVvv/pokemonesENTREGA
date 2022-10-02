@@ -12,6 +12,7 @@ const arrowL = document.querySelector('#arrowL')
 
 const errorOff = document.querySelector('#pokedexapagadaERROR');
 
+const typesID = document.querySelector('#typesID');
 const pokedexContainer = document.querySelector('#pokedexcontainer');
 let promesas = [];
 
@@ -34,6 +35,10 @@ const powerOrOff = ()=>{
         if(screenn.contains(imageP)){
             screenn.removeChild(imageP)
         }
+        if(screenn.contains(typesID))
+        {
+            screenn.removeChild(typesID)
+        }
     }
 
 }
@@ -47,9 +52,9 @@ const renderPokemon = (pokemonToRender)=>{
     pokemonTitle.textContent = pokemonNameToUpperCase(pokemonToRender.name);
     screenn.innerHTML = `<img id="pokemonIMAGEid" class='pokemonIMAGE' src='${pokemonToRender.sprites['front_default']}'>`;
     screenn.appendChild(errorOff);
-}
-
-const pokemonSelected = {};
+    screenn.appendChild(typesID);
+    const types = typesID.textContent = pokemonToRender.types.map(e=>(e.type.name)).join(", ");
+}       
 const getPokemon = async (id) =>{
     try{
         const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
@@ -91,7 +96,8 @@ const init = ()=>{
         screenn.innerHTML = ` <img id="pokemonIMAGEid" 
         class='pokemonIMAGE' src='${pokemon[0].sprites[`${imagePath}`]}'> `;
         screenn.appendChild(errorOff);
-        
+        screenn.appendChild(typesID);
+        const types = typesID.textContent = pokemon[0].types.map(e=>(e.type.name)).join(", ");
     }  
 
     arrowD.addEventListener('click', e=>{
