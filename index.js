@@ -12,6 +12,9 @@ const arrowL = document.querySelector('#arrowL')
 
 const errorOff = document.querySelector('#pokedexapagadaERROR');
 
+const hpValue = document.querySelector('#hp-value-id');
+const imgHPID = document.querySelector('#imgHPID');
+const hpContainer = document.querySelector('#hp-container')
 const typesID = document.querySelector('#typesID');
 const pokedexContainer = document.querySelector('#pokedexcontainer');
 let promesas = [];
@@ -39,6 +42,8 @@ const powerOrOff = ()=>{
         {
             screenn.removeChild(typesID)
         }
+        imgHPID.style.visibility = "hidden";
+        hpValue.textContent = ""
     }
 
 }
@@ -53,17 +58,21 @@ const renderPokemon = (pokemonToRender)=>{
     screenn.innerHTML = `<img id="pokemonIMAGEid" class='pokemonIMAGE' src='${pokemonToRender.sprites['front_default']}'>`;
     screenn.appendChild(errorOff);
     screenn.appendChild(typesID);
+    screenn.appendChild(hpContainer);
     const types = typesID.textContent = pokemonToRender.types.map(e=>(e.type.name)).join(", ");
+    imgHPID.style.visibility = "visible";
+    hpValue.textContent = pokemonToRender.stats[0].base_stat;
 }       
 const getPokemon = async (id) =>{
     try{
-        const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+        const promise = await fetch(`https://pokea2pi.co/api/v2/pokemon/${id}/`);
         const pokemon = await promise.json();
         renderPokemon(pokemon);
         promesas.push(pokemon);
         
-    }catch{
-        console.log("error")
+        
+    }catch (error){
+        console.log(error.status)
     }
     
 }
@@ -82,7 +91,6 @@ const init = ()=>{
         }
        else if (!statuss)
             {
-        
                 errorOff.style.display="grid";
                     setTimeout(e=>{
                         errorOff.style.display="none";
@@ -97,6 +105,7 @@ const init = ()=>{
         class='pokemonIMAGE' src='${pokemon[0].sprites[`${imagePath}`]}'> `;
         screenn.appendChild(errorOff);
         screenn.appendChild(typesID);
+        screenn.appendChild(hpContainer);
         const types = typesID.textContent = pokemon[0].types.map(e=>(e.type.name)).join(", ");
     }  
 
