@@ -10,8 +10,13 @@ const inputNumber = document.querySelector('#inputNumber')
 const arrowD = document.querySelector('#arrowD')
 const arrowL = document.querySelector('#arrowL')
 
+const notZero = document.querySelector('#notZero');
+const incorrectNumber = document.querySelector('#incorrectNumber');
+const notFoundError = document.querySelector('#notfounderror');
+const pesoValue = document.querySelector('#peso-value-id');
+const pesoIMG = document.querySelector('#pesoIMG')
+const pesoContainerID = document.querySelector('#peso-container-id');
 const errorOff = document.querySelector('#pokedexapagadaERROR');
-
 const alturaContainer = document.querySelector('#altura-id');
 const reglaIMG = document.querySelector('#regla-id');
 const altValue = document.querySelector('#alt-value-id');
@@ -49,6 +54,8 @@ const powerOrOff = ()=>{
         hpValue.textContent = ""
         reglaIMG.style.visibility = "hidden";
         altValue.textContent = ""
+        pesoIMG.style.visibility = "hidden";
+        pesoValue.textContent = ""
     }
 
 }
@@ -65,6 +72,7 @@ const renderPokemon = (pokemonToRender)=>{
     screenn.appendChild(typesID);
     screenn.appendChild(hpContainer);
     screenn.appendChild(alturaContainer)
+    screenn.appendChild(pesoContainerID);
 
     const types = typesID.textContent = pokemonToRender.types.map(e=>(e.type.name)).join(", ");
     imgHPID.style.visibility = "visible";
@@ -73,7 +81,8 @@ const renderPokemon = (pokemonToRender)=>{
     reglaIMG.style.visibility = "visible";
     altValue.textContent = (pokemonToRender.height) / 10 + "M";
 
-    console.log(pokemonToRender)
+    pesoIMG.style.visibility = "visible";
+    pesoValue.textContent = (pokemonToRender.weight) / 10 + "Kg";
 }       
 const getPokemon = async (id) =>{
     try{
@@ -83,8 +92,11 @@ const getPokemon = async (id) =>{
         promesas.push(pokemon);
         
         
-    }catch (error){
-        console.log(error.status)
+    }catch{
+        notFoundError.style.visibility="visible";
+        setTimeout(()=>{
+            notFoundError.style.visibility = "hidden";
+        },600)
     }
     
 }
@@ -100,6 +112,21 @@ const init = ()=>{
             if(inputNumber.value >=1){
                 getPokemon(inputNumber.value)
             }
+            else if(inputNumber.value == 0 && inputNumber.value.length != 0){
+                
+                notZero.style.visibility = "visible";
+                setTimeout(()=>{
+                    notZero.style.visibility = "hidden";
+                },600)
+            }
+            else if(inputNumber.value.length == 0){
+                incorrectNumber.style.visibility = "visible";
+                setTimeout(()=>{
+                    incorrectNumber.style.visibility = "hidden";
+                },600)
+            }
+
+           
         }
        else if (!statuss)
             {
@@ -119,6 +146,7 @@ const init = ()=>{
         screenn.appendChild(typesID);
         screenn.appendChild(hpContainer);
         screenn.appendChild(alturaContainer)
+        screenn.appendChild(pesoContainerID)
 
         const types = typesID.textContent = pokemon[0].types.map(e=>(e.type.name)).join(", ");
     }  
