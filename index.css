@@ -34,6 +34,7 @@ html, body{
     border: 0.2px solid white;
     border-radius: 22px;
     width: 48%;
+    max-width: 900px;
     height: 550px;
     clip-path: polygon(58% 0, 100% 11%, 100% 60%, 100% 100%, 0 100%, 0% 60%, 0 0);
     display: grid;
@@ -203,5 +204,24 @@ html, body{
 }
 .hp-value{
     color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.altura-container{
+    display: flex;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    justify-content: center;
+    align-items: center;
+}
+.regla-img{
+    visibility: hidden;
+    width: 15%;
+}
+.alt-value{
+    color: white;
+    font-size: clamp(12px, 2vw, 12px);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }

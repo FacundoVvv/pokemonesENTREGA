@@ -12,6 +12,9 @@ const arrowL = document.querySelector('#arrowL')
 
 const errorOff = document.querySelector('#pokedexapagadaERROR');
 
+const alturaContainer = document.querySelector('#altura-id');
+const reglaIMG = document.querySelector('#regla-id');
+const altValue = document.querySelector('#alt-value-id');
 const hpValue = document.querySelector('#hp-value-id');
 const imgHPID = document.querySelector('#imgHPID');
 const hpContainer = document.querySelector('#hp-container')
@@ -44,6 +47,8 @@ const powerOrOff = ()=>{
         }
         imgHPID.style.visibility = "hidden";
         hpValue.textContent = ""
+        reglaIMG.style.visibility = "hidden";
+        altValue.textContent = ""
     }
 
 }
@@ -59,13 +64,20 @@ const renderPokemon = (pokemonToRender)=>{
     screenn.appendChild(errorOff);
     screenn.appendChild(typesID);
     screenn.appendChild(hpContainer);
+    screenn.appendChild(alturaContainer)
+
     const types = typesID.textContent = pokemonToRender.types.map(e=>(e.type.name)).join(", ");
     imgHPID.style.visibility = "visible";
     hpValue.textContent = pokemonToRender.stats[0].base_stat;
+
+    reglaIMG.style.visibility = "visible";
+    altValue.textContent = (pokemonToRender.height) / 10 + "M";
+
+    console.log(pokemonToRender)
 }       
 const getPokemon = async (id) =>{
     try{
-        const promise = await fetch(`https://pokea2pi.co/api/v2/pokemon/${id}/`);
+        const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
         const pokemon = await promise.json();
         renderPokemon(pokemon);
         promesas.push(pokemon);
@@ -106,6 +118,8 @@ const init = ()=>{
         screenn.appendChild(errorOff);
         screenn.appendChild(typesID);
         screenn.appendChild(hpContainer);
+        screenn.appendChild(alturaContainer)
+
         const types = typesID.textContent = pokemon[0].types.map(e=>(e.type.name)).join(", ");
     }  
 
